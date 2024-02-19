@@ -11,21 +11,26 @@
   <body>
     <div id="app">
       <div class="nav-bar"></div>
+
+      <div class="cart">Cart({{ cart }})</div>
       
       <div class="product-display">
         <div class="product-container">
           <div class="product-image">
-            <img v-bind:src="image"> <!--The image is defined in JS main file. In order to acheive that, we use "v-bind:". The short hand is just colon :-->
+            <img :class="{ 'out-of-stock-img': !inStock }" v-bind:src="image">
           </div>
           <div class="product-info">
             <h1>{{ product }}</h1>
-            <p v-if="Instock">In Stock</p>
+            <p v-if="inStock">In Stock</p>
             <p v-else>Out of Stock</p>
-            <p v-if="Onsale">On Sale</p>
             <ul>
-              <li v-for="size in sizes"> {{ size }}</li> <!--This v-for method is used to render the lists-->
+              <li v-for="detail in details">{{ detail }}</li>
             </ul>
-            
+            <div v-for="variant in variants" :key="variant.id" @mouseover="updateImage(variant.image)">{{ variant.color }}</div>
+            <button class="button" @click="addToCart">Add to Cart</button>
+            <!-- solution -->
+            <button class="button" @click="removeFromCart">Remove Item</button>
+            <!-- solution -->
           </div>
         </div>
       </div>
@@ -40,4 +45,3 @@
     </script>
   </body>
 </html>
-
